@@ -5,6 +5,7 @@ nnoremap <leader>pS :lua require'telescope.builtin'.grep_string({
 " Project files
 nnoremap <leader>pf :TeleScopeProjectFiles<Cr>
 nnoremap <C-p> <cmd>Telescope find_files<Cr>
+nnoremap <leader>fb :Telescope file_browser path=%:p:h<Cr>
 
 " Show buffers
 nnoremap <leader>bs :lua require'telescope.builtin'.buffers()<Cr>
