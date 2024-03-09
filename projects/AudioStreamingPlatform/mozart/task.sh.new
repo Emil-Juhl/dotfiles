@@ -1,0 +1,74 @@
+#!/bin/bash
+
+function ip_from_hostname() {
+    local hst="$1"
+    local nums="[0-9]\{1,3\}"
+    local ipRegex="${nums}\.${nums}\.${nums}\.${nums}"
+
+    resolvectl query "$hst" | grep -o "$ipRegex" | head -n 1
+}
+
+function print_host_ip() {
+    local host=""
+    while read -r host
+    do
+        echo "$host @ $(ip_from_hostname $host)"
+    done
+}
+
+function discover_devices() {
+    local timeout=${1:-10}
+    local service=${2:-'._bangolufsen._tcp.local'}
+    timeout ${timeout}s mdns-scan 2>&1 >/dev/null | \
+                        grep --line-buffered "$service" | \
+                        stdbuf -oL cut -d ' ' -f 2 | \
+                        stdbuf -oL cut -d "." -f 1,4 | \
+                        print_host_ip
+}
+
+if [ -z "$1" ]
+then
+    cat << EOF
+Usage:
+    - build : build release with debug info
+    - buildx86 : build x86 debug
+    - test [all] : run unit-tests
+                   Either select test or pass "all"
+                   to run all tests
+    - deploy : do-deploy release with debug info
+    - shell : launch docker shell
+EOF
+    exit 1
+fi
+
+if [[ "$1" == "build" ]]
+then
+    ./build.sh -i all -t relwithdebinfo
+elif [[ "$1" == "buildx86" ]]
+then
+    ./build.sh -x all -t debug
+elif [[ "$1" == "test" ]]
+then
+    if [[ "$2" == "all" ]]
+    then
+        ./build.sh -x do_ctest_all -t debug
+    fi
+elif [[ "$1" == "deploy" ]]
+then
+    ./build.sh -i do_deploy -t relwithdebinfo -n
+elif [[ "$1" == "shell" ]]
+then
+    ./scripts/docker_shell.sh
+elif [[ "$1" == "getip" ]]
+then
+    shift
+    ip_from_hostname $@
+elif [[ "$1" == "ssh" ]]
+then
+    shift
+    ssh root@"$(ip_from_hostname $@)"
+elif [[ "$1" == "discover" ]]
+then
+    shift
+    discover_devices $@
+fi

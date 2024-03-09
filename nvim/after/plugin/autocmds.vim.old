@@ -1,0 +1,24 @@
+" TODO migrate this to lua
+fun! TrimWhitespace()
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
+endfun
+
+augroup EMDJ
+    autocmd!
+    " Trim trailing whitespace on save
+    autocmd BufWritePre * :call TrimWhitespace()
+    " Enable wrapping in Telescope preview
+    autocmd User TelescopePreviewerLoaded setlocal wrap
+    " Lsp auto-format
+    " autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync()
+augroup END
+
+"augroup LSP
+"    autocmd!
+"    autocmd CursorHold <buffer> lua require'vim.lsp'.buf.document_highlight()
+"    autocmd CursorHoldI <buffer> lua require'vim.lsp'.buf.document_highlight()
+"    autocmd CursorMoved <buffer> lua require'vim.lsp'.buf.clear_references()
+"    autocmd CursorMovedI <buffer> lua require'vim.lsp'.buf.clear_references()
+"augroup END
