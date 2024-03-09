@@ -1,0 +1,227 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+    70% {
+        color: white;
+    }
+
+    to {
+        color: white;
+        background-color: orange;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+      color: white;
+    }
+
+    to {
+        color: white;
+        background-color: red;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* The whole bar */
+#waybar {
+    background: transparent;
+    color: white;
+    font-family: Dejavu Sans Mono;
+    font-size: 13px;
+}
+
+/* Left side modules */
+.modules-left {
+    background: rgba(41,41,41,0.65);
+    border-radius: 0px 0px 10px 0px;
+    padding-right: 15px;
+}
+
+/* Window bar (center) */
+.modules-center {
+    background: rgba(41,41,41,0.65);
+    border-radius: 10px 10px 10px 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0px 50px;
+    min-width: 250px;
+    font-weight: bold;
+    color: #bbbbbb;
+}
+/* Right side modules */
+.modules-right {
+    background: rgba(41,41,41,0.65);
+    border-radius: 0px 0px 0px 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: bold;
+    color: #bbbbbb;
+}
+
+/* -----------------------------------------------------------------------------
+ * Module styles
+ * -------------------------------------------------------------------------- */
+
+/* Workspaces part */
+#workspaces button {
+    border-top: 2px solid transparent;
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #bbbbbb;
+    transition: 0.8s;
+}
+#workspaces button.focused {
+    background-color: #285577;
+    border-color: #4c7899;
+    color: #dddddd;
+    transition: 0.2s;
+}
+#workspaces button.urgent {
+    border-color: #c9545d;
+    color: #c9545d;
+}
+#mode {
+    background-color: #285577;
+    border-color: #4c7899;
+    border-top: 2px solid transparent;
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+    border-radius: 0px 0px 10px 10px;
+    color: #dddddd;
+}
+
+/* Rest of the modules */
+#custom-power_off_button {
+    /* No styles */
+}
+
+#battery,
+#clock,
+#cpu,
+#custom-keyboard-layout,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray,
+#custom-power_off_button {
+    padding-right: 5px;
+    padding-left: 5px;
+    margin: 0px 5px;
+}
+
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.warning {
+    color: orange;
+}
+
+#battery.critical {
+    color: red;
+}
+
+#battery.warning.discharging {
+    animation-name: blink-warning;
+    animation-duration: 3s;
+}
+
+#battery.critical.discharging {
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#cpu {
+  /* No styles */
+}
+
+#cpu.warning {
+    color: orange;
+}
+
+#cpu.critical {
+    color: red;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#memory.warning {
+    color: orange;
+}
+
+#memory.critical {
+    color: red;
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+#network {
+    /* No styles */
+}
+
+#network.disconnected {
+    color: orange;
+}
+
+#pulseaudio {
+    /* No styles */
+}
+
+#pulseaudio.muted {
+    /* No styles */
+}
+
+#custom-spotify {
+    color: rgb(102, 220, 105);
+}
+
+#temperature {
+    /* No styles */
+}
+
+#temperature.critical {
+    color: red;
+}
+
+#tray {
+    /* No styles */
+}
+
