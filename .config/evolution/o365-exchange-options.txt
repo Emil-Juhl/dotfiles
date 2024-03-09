@@ -1,0 +1,11 @@
+# Not an actual config file, but these settings should be put into Evolution
+# during setup of Microsoft Exchange O365 account.
+# Remember to also install the 'evolution-ews' package.
+
+[Configuration]
+Host URL: https://outlook.office365.com/EWS/Exchange.asmx
+
+[Receiving mail]
+Application ID: d3590ed6-52b3-4102-aeff-aad2292ab01c
+Tenant ID: <blank>
+Redirect URL: urn:ietf:wg:oauth:2.0:oob
