@@ -1,0 +1,316 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Direction keys; arrows for now
+set $left Left
+set $down Down
+set $up Up
+set $right Right
+# Terminal
+set $term alacritty
+font FreeMono, 9
+
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+set $menu wofi --show run
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg /home/emdj/wallpapers/space2_1920x1080.jpg fill
+#output * bg /home/emdj/wallpapers/win_xp.jpg fill
+
+#
+# Output configuration
+#
+output 'BenQ Corporation BenQ EX2710 YBL03865019' resolution 1920x1080 position 1920,0
+output HDMI-A-1 resolution 1920x1080@60Hz position 1920,0
+# Mit bord
+output eDP-1 resolution 1920x1080 position 0,0
+output DP-4 resolution 1920x1200 position 3840,0
+output DP-6 resolution 1920x1200 position 3840,0
+output "Unknown HP E24i G4 CNK0410RG2" resolution 1920x1200 position 3840,0
+output DP-3 resolution 1920x1200 position 1920,0
+output DP-5 resolution 1920x1200 position 1920,0
+output "Unknown HP E24i G4 CNK0410RGD" resolution 1920x1200 position 1920,0
+output 'Microstep MSI MAG275R 0x00000673' resolution 1920x1080 position 3840,0 transform 90
+# Sølvkjær desk
+
+#output eDP-1 resolution 1920x1080 position 3840,0
+output 'Unknown HP Z24i G2 6CM02905BJ' resolution 1920x1200 position 1920,0
+output 'Unknown HP Z24i G2 6CM02905PF' resolution 1920x1200 position 0,0
+
+output 'Lenovo Group Limited LEN LT2452pwC VN-510397' resolution 1920x1200 position 0,0
+output 'Lenovo Group Limited LEN LT2452pwC 0x00004F39' resolution 1920x1200 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+#output eDP-1 disable
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Let's enable xwayland for compatibility stuff
+xwayland enable
+
+### Some layout stuff
+gaps inner 6
+default_border pixel 3
+client.focused_inactive #0000005f #5f676a5f #ffffff7f #5f676a7f #5f676a7f
+client.unfocused #0000005f #5f676a5f #ffffff7f #5f676a7f #5f676a7f
+client.focused #5f676aaf #5f676aaf #ffffff #5f676adf #5f676aaf
+
+### Input configuration
+#
+# Example configuration:
+#
+    input "1739:52550:SYNA307B:00_06CB:CD46_Touchpad" {
+        dwt enabled
+        tap enabled
+        natural_scroll enabled
+        middle_emulation enabled
+    }
+    input "1:1:AT_Translated_Set_2_keyboard" {
+        xkb_layout "dk"
+    }
+    input "1008:842:Chicony_HP_Elite_USB_Keyboard" {
+        xkb_layout "dk"
+    }
+    input "1121:16:NOVATEK_USB_Keyboard" {
+        xkb_layout "dk"
+    }
+    input "1133:16502:Logitech_K540/K545" {
+        xkb_layout "dk"
+    }
+    input "16700:8467:Dell_KB216_Wired_Keyboard" {
+        xkb_layout "dk"
+    }
+    input "1133:49935:Logitech_Logitech_USB_Keyboard" {
+        xkb_layout "dk"
+    }
+        input "1241:661:USB-HID_Keyboard" {
+        xkb_layout "dk"
+    }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+### a bit of experimentation to get a "float terminal" for quick-commands
+    for_window [app_id="termfloat"] floating enable
+    for_window [app_id="termfloat"] resize set height 720
+    for_window [app_id="termfloat"] resize set width 1280
+    for_window [app_id="termfloat"] move position center
+    for_window [app_id="termfloat"] border pixel 8
+    bindsym $mod+Shift+t exec $term --class="termfloat"
+
+### Make Pavucontrol open in floating window of specific size
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="pavucontrol"] resize set height 600
+for_window [app_id="pavucontrol"] resize set width 600
+for_window [app_id="pavucontrol"] move position center
+for_window [app_id="pavucontrol"] border pixel 4
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+#
+# Volume:
+#
+    bindsym XF86AudioMute exec pamixer -t
+    bindsym XF86AudioRaiseVolume exec pamixer -i 2
+    bindsym XF86AudioLowerVolume exec pamixer -d 2
+
+#
+# Brightness:
+#
+    bindsym XF86MonBrightnessUp exec brightnessctl --exponent set +2% && \
+                                     pkill -RTMIN+1 waybar > /dev/null 2>&1
+
+    bindsym XF86MonBrightnessDown exec brightnessctl --exponent set 2%- && \
+                                       pkill -RTMIN+1 waybar > /dev/null 2>&1
+
+#
+# Lock screen:
+#
+    bindsym $mod+l exec swaylock -c 000000
+#
+# Screenshot:
+#
+    bindsym Print exec grimshot copy area
+    bindsym $mod+Print exec grimshot copy active
+    bindsym Shift+Print exec grimshot save area
+    bindsym $mod+Shift+Print exec grimshot save active
+
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+#
+# Workspaces:
+#
+    # Switch to workspace
+    bindsym $mod+1 workspace number 1:mail
+    bindsym $mod+2 workspace number 2:www
+    bindsym $mod+3 workspace number 3:term
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1:mail
+    bindsym $mod+Shift+2 move container to workspace number 2:www
+    bindsym $mod+Shift+3 move container to workspace number 3:term
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+
+    bindsym $mod+Control+Shift+Right move workspace to output right
+    bindsym $mod+Control+Shift+Left move workspace to output left
+    bindsym $mod+Control+Shift+Down move workspace to output down
+    bindsym $mod+Control+Shift+Up move workspace to output up
+
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+     swaybar_command waybar
+#---- DEFAULT ----#
+#    position top
+#
+#    # When the status_command prints a new line to stdout, swaybar updates.
+#    # The default just shows the current date and time.
+#    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#
+#    colors {
+#        statusline #ffffff
+#        background #323232
+#        inactive_workspace #32323200 #32323200 #5c5c5c
+#    }
+}
+
+include /etc/sway/config.d/*
+
+exec systemctl --user --no-block start wlr-brightness.service
+#exec systemctl --user --no-block start mbsync
+
+exec sleep 0.1s && swaymsg "workspace 1:mail; exec chromium https://teams.microsoft.com/_#/calendar"
+
+exec sleep 0.2s && swaymsg "workspace 2:www; exec firefox"
+
+exec sleep 0.4s && swaymsg "workspace 3:term; exec alacritty; layout tabbed"
