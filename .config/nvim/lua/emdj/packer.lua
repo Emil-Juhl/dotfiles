@@ -30,15 +30,7 @@ return require('packer').startup(function(use)
     }
 
     use({
-        'nvim-treesitter/playground'
-    })
-
-    use({
         'tpope/vim-fugitive'
-    })
-
-    use({
-        'mbbill/undotree'
     })
 
     use {
@@ -73,21 +65,6 @@ return require('packer').startup(function(use)
 
     use {
         'nvim-lualine/lualine.nvim'
-    }
-
-    use {
-        'EthanJWright/vs-tasks.nvim',
-        requires = {
-            'nvim-lua/popup.nvim',
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope.nvim'
-        }
-    }
-
-    use {
-        'Joakker/lua-json5',
-        as = 'json5',
-        run = './install.sh'
     }
 
     use {
