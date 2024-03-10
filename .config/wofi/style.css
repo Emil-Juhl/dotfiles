@@ -1,0 +1,65 @@
+@define-color textbox rgba(68,71,90,0.7);
+@define-color text rgba(248,248,242,1);
+@define-color purple rgba(159,51,255,0.5);
+@define-color blue rgba(51,85,255,0);
+
+window {
+	margin: 0px;
+	border-radius: 15px;
+	background: linear-gradient(@purple, @blue);
+}
+
+#input {
+	margin: 5px;
+	border: none;
+	border-radius: 15px;
+	color: @text;
+	background-color: @textbox;
+}
+
+#inner-box {
+	margin: 5px;
+	border: none;
+	border-radius: 15px;
+}
+
+#outer-box {
+	margin: 5px;
+	border: none;
+	border-radius: 15px;
+}
+
+#scroll {
+	margin: 0px;
+	border: none;
+	border-radius: 15px;
+}
+
+#text {
+	margin: 5px;
+	border: none;
+	border-radius: 15px;
+	color: @text;
+} 
+
+#entry.activatable #text {
+	color: #282a36;
+	border-radius: 15px;
+}
+
+#entry > * {
+	color: @text;
+	border-radius: 15px;
+}
+
+#entry:selected {
+	background-color: @textbox;
+}
+
+#entry:selected #text {
+	font-weight: bold;
+}
+
+#entry image {
+	margin-right: .5em;
+}
